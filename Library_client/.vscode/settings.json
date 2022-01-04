@@ -1,0 +1,8 @@
+{
+    "workbench.colorTheme": "Default Light+",
+    "files.associations": {
+        "iostream": "cpp",
+        "fstream": "cpp",
+        "ctime": "cpp"
+    }
+}
