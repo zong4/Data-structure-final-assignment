@@ -13,10 +13,9 @@ from flask import Flask, url_for, render_template, request
 app = Flask(__name__)
 app.config["SECRET_KEY"] = '123456'
 
-# g++ -fPIC -shared test.cpp -o test.so
+# g++ -fPIC -shared Test/void.cpp -o void.so
 
-test = cdll.LoadLibrary(r".\Library_client\test.so")
-
+test = cdll.LoadLibrary(r"D:\Code\C++\Data-structure-final-assignment\Cpp\Test\void.so")
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
