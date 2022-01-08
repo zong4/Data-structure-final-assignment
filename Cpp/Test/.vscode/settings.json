@@ -1,0 +1,26 @@
+{
+    "files.associations": {
+        "system_error": "cpp",
+        "xlocale": "cpp",
+        "unordered_map": "cpp",
+        "iostream": "cpp",
+        "limits": "cpp",
+        "utility": "cpp",
+        "ios": "cpp",
+        "xiosbase": "cpp",
+        "atomic": "cpp",
+        "initializer_list": "cpp",
+        "type_traits": "cpp",
+        "vector": "cpp",
+        "xstring": "cpp",
+        "xutility": "cpp",
+        "ostream": "cpp",
+        "xlocmon": "cpp",
+        "iosfwd": "cpp",
+        "string": "cpp",
+        "cmath": "cpp",
+        "fstream": "cpp",
+        "iomanip": "cpp",
+        "stack": "cpp"
+    }
+}

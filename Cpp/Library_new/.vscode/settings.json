@@ -1,0 +1,16 @@
+{
+    "workbench.colorTheme": "Default Light+",
+    "files.associations": {
+        "iostream": "cpp",
+        "fstream": "cpp",
+        "ctime": "cpp",
+        "initializer_list": "cpp",
+        "type_traits": "cpp",
+        "xstring": "cpp",
+        "xtree": "cpp",
+        "xutility": "cpp",
+        "atomic": "cpp",
+        "xlocale": "cpp",
+        "xlocnum": "cpp"
+    }
+}

@@ -10,5 +10,5 @@ from ctypes import *
 
 # g++ -fPIC -shared AutoLib.cpp -o AutoLib.so
 
-test = cdll.LoadLibrary(r".\Library_client\AutoLib.so")
+test = cdll.LoadLibrary(r"D:\Code\C++\Data-structure-final-assignment\Cpp\Library_client\AutoLib.so")
 test.main()

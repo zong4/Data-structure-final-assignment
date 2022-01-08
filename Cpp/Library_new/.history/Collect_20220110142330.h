@@ -1,0 +1,21 @@
+//收藏夹类
+#ifndef Collect_H
+#define Collect_H
+#include <iostream>
+
+#include"Collect.h"
+#include "DataBase.h"
+#include "Shop.h"
+
+using namespace std;
+
+class Collect:public DataBase
+{
+private: 
+    Collect(int size):DataBase(size){};
+    ~Collect(){delete []book;};
+    friend int CollecttoShop(int,Shop&,Collect&);
+    friend int ShoptoCollect(int,Shop&,Collect&);
+};
+
+#endif

@@ -1,0 +1,133 @@
+@startuml
+class Database{
+..private..
+
+..protected..
+
++ int size
++ Book *book
+
+..public..
+
+# Database(int)
+# ~Database()
+# int insert(Book)
+# int delete(int,int)
+# Book Idsearch(int)
+# Database Savesort()
+# Database Pricesort()
+# Database Idsort()
+# Database Idsearch(int,int)
+# Database Timesearch(Time,Time)
+# Database Authorsearch(string)
+}
+
+class Collect{
+..private..
+
+..protected..
+
+..public..
+
+# Collect(int):Database(int)
+# ~Collect()
+# friend int CollecttoShop(int)
+# friend int ShoptoCollect(int)
+}
+
+class Shop{
+..private..
+
+- int Allnum
+- double Allprice
+
+..protected..
+
+..public..
+
+# Shop(int):Database(int)
+# ~Shop()
+# int Countnum()
+# double Countprice()
+# friend int CollecttoShop(int)
+# friend int ShoptoCollect(int)
+}
+
+class Set{
+..private..
+
+..protected..
+
+..public..
+
+# Set(int):Database(int)
+# ~Set()
+# deleteAll(Time)
+}
+
+class Book{
+..private..
+
+- static int id
+- Time Savetime
+- string name
+- string author
+- string address
+- Time Writetime
+- double price
+- int num
+- double Allprice
+
+..protected..
+
+..public..
+
+# Book()
+# Book(int,Time,string,string,string,Time,double,int)
+# ~Book()
+# int getId()
+# Time getSave()
+# string getName()
+# string getAuthor()
+# string getAddress()
+# Time getWrite()
+# double getPrice()
+# int setPrice()
+# int getNum()
+# int setNum(int)
+# friend class Bookbase
+}
+
+class Time{
+..private..
+
+- int year
+- int month
+- int day
+
+..protected..
+
+..public..
+
+# Time()
+# Time(int,int,int)
+# ~Time()
+# int getDate()
+# int getYear()
+# int setYear(int)
+# int getMonth()
+# int setMonth(int)
+# int getDay()
+# int setDay(int)
+# friend class Book
+}
+
+Database o-- Book
+Book "1" o-- "2" Time
+Collect --|> "public" Database
+Shop --|> "public" Database
+Set --|> "public" Database
+Book <-right- Database
+Time <-left- Database
+Shop<-left- Database
+@enduml

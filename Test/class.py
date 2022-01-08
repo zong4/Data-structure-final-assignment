@@ -8,9 +8,9 @@
 
 from ctypes import cdll
 
-# g++ -fPIC -shared class.cpp -o class.so
+# g++ -fPIC -shared Test/class.cpp -o class.so
 
-test = cdll.LoadLibrary(r".\Library_client\class.so")
+test = cdll.LoadLibrary(r"D:\Code\C++\Data-structure-final-assignment\Cpp\Test\class.so")
 
 a = test.inse()
 print(a)
