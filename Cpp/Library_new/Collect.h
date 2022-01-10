@@ -5,16 +5,18 @@
 
 #include "DataBase.h"
 #include "Shop.h"
+#include "Set.h"
 
 using namespace std;
 class Shop;
-class Collect:public DataBase
+class Collect : virtual public DataBase
 {
-private: 
-    Collect(int size):DataBase(size){};
-    ~Collect(){delete []book;};
-    friend int CollecttoShop(int,Shop&,Collect&);
-    friend int ShoptoCollect(int,Shop&,Collect&);
+public:
+    Collect(int size) : DataBase(size){};
+    // ~Collect(){delete []book;};
+    friend int ShoptoCollect(int, Shop &, Collect &);
+    friend int SettoCollect(int ,Set&,Collect&);
+    void show();
 };
 
 #endif

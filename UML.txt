@@ -10,16 +10,19 @@ class Database{
 ..public..
 
 # Database(int)
-# ~Database()
+# virtual ~Database()
+# DataBase(Book*,int)
 # int insert(Book)
-# int delete(int,int)
+# int Delete(int)
 # Book Idsearch(int)
-# Database Savesort()
-# Database Pricesort()
-# Database Idsort()
-# Database Idsearch(int,int)
-# Database Timesearch(Time,Time)
-# Database Authorsearch(string)
+# void Savesort()
+# void Pricesort()
+# void Idsort()
+# void Idsearch(int,int)
+# void Timesearch(Time,Time)
+# void Authorsearch(string)
+# bool judgeId(int)
+# void show
 }
 
 class Collect{
@@ -31,8 +34,9 @@ class Collect{
 
 # Collect(int):Database(int)
 # ~Collect()
-# friend int CollecttoShop(int)
-# friend int ShoptoCollect(int)
+# friend int CollecttoShop(int,Shop,Collect)
+# friend int SettoCollect(int,Set,Collect)
+# void show()
 }
 
 class Shop{
@@ -49,8 +53,10 @@ class Shop{
 # ~Shop()
 # int Countnum()
 # double Countprice()
-# friend int CollecttoShop(int)
-# friend int ShoptoCollect(int)
+# friend int CollecttoShop(int,Shop,Collect)
+# void show()
+# int changeNum(int,int)
+# void showpay(int)
 }
 
 class Set{
@@ -63,12 +69,14 @@ class Set{
 # Set(int):Database(int)
 # ~Set()
 # deleteAll(Time)
+# void show()
+# int readfile(string)
 }
 
 class Book{
 ..private..
 
-- static int id
+- int id
 - Time Savetime
 - string name
 - string author
@@ -85,17 +93,19 @@ class Book{
 # Book()
 # Book(int,Time,string,string,string,Time,double,int)
 # ~Book()
-# int getId()
+# void Set(Book)
+# void setPrice(double)
+# void setNum(int)
+# void setTime(int,int,int)
+# int getid()
 # Time getSave()
 # string getName()
 # string getAuthor()
 # string getAddress()
 # Time getWrite()
 # double getPrice()
-# int setPrice()
 # int getNum()
-# int setNum(int)
-# friend class Bookbase
+# void ShowData()
 }
 
 class Time{
@@ -113,12 +123,14 @@ class Time{
 # Time(int,int,int)
 # ~Time()
 # int getDate()
+# void SetDate(int,int,int)
 # int getYear()
-# int setYear(int)
+# void setYear(int)
 # int getMonth()
-# int setMonth(int)
+# void setMonth(int)
 # int getDay()
-# int setDay(int)
+# void setDay(int)
+# void show()
 # friend class Book
 }
 

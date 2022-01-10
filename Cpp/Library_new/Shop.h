@@ -8,18 +8,25 @@
 
 using namespace std;
 class Collect;
-class Shop:public DataBase
+class Shop :public DataBase
 {
 private:
     int Allnum;
     double Allprice;
+
 public:
-    Shop(int size):DataBase(size){};
-    ~Shop(){delete []book;}
+    Shop(int size) : DataBase(size)
+    {
+        Allnum = 0;
+        Allprice = 0;
+    };
+    // ~Shop(){delete []book;}
     int Countnum();
     double Countprice();
-    friend int CollecttoShop(int,Shop&,Collect&);
-    friend int ShoptoCollect(int,Shop&,Collect&);
+    friend int CollecttoShop(int, Shop &s, Collect &);
+    void show();
+    int changeNum(int, int);
+    void showpay(int);
 };
 
 #endif

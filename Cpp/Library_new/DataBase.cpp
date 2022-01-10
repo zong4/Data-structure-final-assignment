@@ -3,6 +3,8 @@
 
 #include <cstring>
 using namespace std;
+double d[1000];
+
 
 DataBase::DataBase(int size)
 {
@@ -13,36 +15,68 @@ DataBase::~DataBase()
 {
     delete[] book;
 }
-DataBase::DataBase(Book *B){
-    this->book=new Book[this->size]; // '*<unknown>.DataBase::size' is used uninitialized in this function [-Wuninitialized]
-    for(int i=1;i<size;i++){
-        this->book[i]=B[i];
+DataBase::DataBase(Book *B, int size)
+{
+    this->book = new Book[size];
+    for (int i = 1; i < 500; i++)
+    {
+        this->book[i] = B[i];
     }
-
 }
 int DataBase::insert(Book b)
 {
-    int i = 1; // unused variable 'i' [-Wunused-variable]
-    if (book[b.id].num == 0)
+    cout<<"请输入进入时间（输入的进入时间需大于书本的出版时间）:";
+    int year,month,day;
+    cin>>year>>month>>day;
+    b.setTime(year,month,day);
+    if(year>2022||year<0||month>12||month<0||day<0||day>30)
+        {
+                cout<<"输入日期不合法，请重新输入：";
+                cin>>year>>month>>day;
+                b.setTime(year,month,day);
+        }
+    if(b.getWrite().getDate()>b.getSave().getDate())
     {
-        book[b.id] = b;
+        cout<<"输入的收藏日期小于出版日期，不合法请重新输入:";
+        cin>>year>>month>>day;
+        b.setTime(year,month,day);
+    }
+    if (book[b.getid()].getNum() == 0)
+    {
+        book[b.getid()] = b;
     }
     else
     {
-        book[b.id].num += b.num;
+        if(book[b.getid()].getSave().getDate()<b.getSave().getDate())
+        {
+            book[b.getid()].setTime(b.getSave().getYear(),b.getSave().getMonth(),b.getSave().getDay());
+        }
+        book[b.getid()].setNum(book[b.getid()].getNum() + b.getNum());
     }
+    cout<<"成功插入"<<endl;
     return 1;
 }
-int DataBase::Delete(int id, int n)
+int DataBase::Delete(int id)
 {
-    if (Idsearch(id).num == 0 || !judgeId(id))
+    if (Idsearch(id).getNum() == 0 || !judgeId(id))
     {
+        cout<<"删除失败"<<endl;
         return 0;
     }
-    book[id].num = book[id].num - n;
-    if (book[id].num <= 0)
-    {
-        book[id].num = 0;
+    else{
+        cout<<"所删图书信息为:"<<endl;
+        book[id].ShowData();
+        cout<<"是否确定选择删除，是请输入yes:";
+        string choice;
+        cin>>choice;
+        if(choice=="yes"||choice=="YES"||choice=="Yes"){
+            book[id].setNum(0);
+            cout<<"删除成功"<<endl;
+        }
+        else{
+            cout<<"未删除该图书"<<endl;
+            return 0;
+        }
     }
     return 1;
 }
@@ -50,116 +84,126 @@ Book DataBase::Idsearch(int id)
 {
     if (!judgeId(id))
     {
-        cout<<"输入的id不在搜索范围内"<<endl;
+        cout << "输入的ID有误,请重新输入ID：" << endl;
+        cin>>id;
     }
-    if (book[id].num != 0)
+    if (book[id].getNum() != 0)
     {
         return book[id];
     }
     else
     {
+        cout<<"该书本没找到!"<<endl;
         Book b;
         return b;
     }
 }
 //快速排序
 //当输入0时，收藏时间排序，当输入1时，价格排序，当输入其他数字时，ID来排序
-void quickSort(Book s[], int l, int r, int choice,int *a)
+void quickSort(Book s[], int l, int r, int choice)
 {
-    if (!a)
+        // double a[100000];
+        // for (int i = l; i <= r; i++)
+        // {
+        //     if (choice == 0)
+        //         a[i] = s[i].getSave().getDate();
+        //     else if (choice == 1)
+        //         {a[i] = s[i].getPrice();
+        //         cout<<s[i].getPrice()<<endl;}
+        //     else
+        //         a[i] = s[i].getid();
+        // }
+    double temp;
+    Book book_temp;
+    // for(int n=l;n<r;n++)s
+    r=4;
+    for(int i=l;i<r;i++)
     {
-        a = new int[r + 1];
-        for (int i = 1; i <= r; i++)
+        for(int j=l;j<r-i+l;j++)
         {
-            if (choice == 0)
-                a[i] = s[i].getSave().getDate();
-            else if (choice == 1)
-                a[i] = s[i].getPrice();
-            else
-                a[i] = s[i].getid();
+            if(d[j]<d[j+1])
+            {
+                temp=d[j];
+                d[j]=d[j+1];
+                d[j+1]=temp;
+                book_temp=s[j];
+                s[j]=s[j+1];
+                s[j+1]=book_temp;
+            }
         }
     }
-    if (l < r)
-    {
-        int i = l, j = r, x = a[l];
-        while (i < j)
-        {
-            while (i < j && a[j] >= x) // 从右向左找第一个小于x的数
-                j--;
-            if (i < j) // this 'if' clause does not guard... [-Wmisleading-indentation]
-                a[i++] = a[j];
-                s[i++] = s[j];
-            while (i < j && a[i] < x) // 从左向右找第一个大于等于x的数
-                i++;
-            if (i < j) // this 'if' clause does not guard... [-Wmisleading-indentation]
-                s[j--] = s[i];
-                a[j--] = a[i];
-        }
-        a[i] = x;
-        s[i] = s[l];
-        quickSort(s, l, i - 1, choice,a); // 递归调用
-        quickSort(s, i + 1, r, choice,a);
+}
+void DataBase::Savesort()
+{
+    for(int i=1;i<500;i++){
+        d[i]=book[i].getSave().getDate();
     }
+
+    quickSort(book, 1, 499, 0);
+    show();
 }
-DataBase DataBase::Savesort()
+void DataBase::Pricesort()
 {
-    int *a;
-    quickSort(book, 1, size - 1, 0,a); // 'a' is used uninitialized in this function [-Wuninitialized]
-    return DataBase(this->book);
+     for(int i=1;i<500;i++){
+        d[i]=book[i].getPrice();
+    }
+    quickSort(book, 1, 499, 1);
+    show();
 }
-DataBase DataBase::Pricesort()
+void DataBase::Idsort()
 {
-    int *a;
-    quickSort(book, 1, size - 1, 1,a); // 'a' is used uninitialized in this function [-Wuninitialized]
-    return DataBase(this->book);
+     for(int i=1;i<500;i++){
+        d[i]=book[i].getid();
+    }
+    quickSort(book, 1, 499, 2);
+    show();
 }
-DataBase DataBase::Idsort()
+void DataBase::Idsearch(int id1, int id2)
 {
-    int *a;
-    quickSort(book, 1, size - 1, 2,a); // 'a' is used uninitialized in this function [-Wuninitialized]
-    return DataBase(this->book);
-}
-DataBase DataBase::Idsearch(int id1, int id2)
-{
-    DataBase D(id2 + 1);
+    bool flag=false;
     if (!judgeId(id1) || !judgeId(id2))
     {
-        cout<<"输入的id不在搜索范围内"<<endl;
+        cout << "输入的ID有误,请重新输入两个ID：" << endl;
+        cin>>id1>>id2;
     }
     for (int i = id1; i <= id2; i++)
     {
-        D.book[i] = this->book[i];
+        book[i].ShowData();
+        flag=true;
     }
-    return D;
+    if(!flag)cout<<"ID查找失败"<<endl;
 }
-DataBase DataBase::Timesearch(Time t1, Time t2)
+void DataBase::Timesearch(Time t1, Time t2)
 {
-    DataBase D(this->size);
-    for (int i = 1; i < size; i++)
+    bool flag=false;
+    for (int i = 1; i < 500; i++) // size
     {
-        if (book[i].SaveTime.getDate() > t1.getDate() && book[i].SaveTime.getDate() < t2.getDate())
+        if (book[i].getSave().getDate() >= t1.getDate() && book[i].getSave().getDate() <= t2.getDate())
         {
-            D.insert(book[i]);
+            book[i].ShowData();
+            flag=true;
         }
     }
-    return D;
+    if(!flag)cout<<"时间查找失败"<<endl;
+    
 }
-DataBase DataBase::Authorsearch(string name)
+void DataBase::Authorsearch(string name)
 {
-    DataBase D(this->size);
-    for (int i = 1; i < size; i++)
+    bool flag=false;
+    for (int i = 1; i < 500; i++) // size
     {
-        if (book[i].author == name)
+        if (book[i].GetAuthor() == name)
         {
-            D.insert(book[i]);
+            book[i].ShowData();
+            flag=true;
         }
     }
-    return D;
+    if(!flag)cout<<"作者查找失败"<<endl;
 }
 
 bool DataBase::judgeId(int id)
 {
-    if (id >= 1 && id <= 10000)
+    if (id >= 1 && id <= 500)
     {
         return true;
     }
@@ -167,4 +211,29 @@ bool DataBase::judgeId(int id)
     {
         return false;
     }
+}
+void DataBase::show()
+{
+    int num=0;
+    for (int i = 1; i < 500; i++) // size
+    {
+        num+=book[i].getNum();
+        if (book[i].getNum() != 0)
+        {
+            cout << "图书号为:" << book[i].getid() << "  "
+                 << "书名为:" << book[i].getName() << "  "
+                 << "作者为:" << book[i].GetAuthor() << "  "
+                 << "出版社为:" << book[i].getAddress() << "  "
+                 << "出版日期为:";
+                book[i].getWrite().show();
+                cout << "  "
+                 << "价格为:" << book[i].getPrice() << "  "
+                 << "数量为:" << book[i].getNum() << "  "
+                 << "购买金额为:" << book[i].getNum() * book[i].getPrice() << "  "
+                 << "加入购物车日期为:";
+            book[i].getSave().show();
+            cout << endl;
+        }
+    }
+    if(!num)cout<<"=================================空==========================================="<<endl;
 }
